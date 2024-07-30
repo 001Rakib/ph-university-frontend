@@ -1,4 +1,4 @@
-import { Controller, FieldValues, SubmitErrorHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PhForm";
 import PHInput from "../../../components/form/PhInput";
 import { Button, Col, Divider, Form, Input, Row } from "antd";
@@ -74,7 +74,7 @@ const CreateStudent = () => {
   }));
 
   //form handle function for creating student
-  const onSubmit: SubmitErrorHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const studentData = {
       password: "student123",
       student: data,
@@ -83,7 +83,13 @@ const CreateStudent = () => {
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(studentData));
+    formData.append("file", data.image);
+
     addStudent(formData);
+
+    //! This is for development
+    //! Just for checking
+    console.log(Object.fromEntries(formData));
   };
 
   return (
