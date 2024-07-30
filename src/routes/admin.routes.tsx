@@ -6,6 +6,7 @@ import CreateStudent from "../pages/admin/userManagement/CreateStudent";
 import AcademicSemester from "../pages/admin/AcademicManagement/AcademicSemester";
 import CreateAcademicSemester from "../pages/admin/AcademicManagement/CreateAcademicSemester";
 import StudentData from "../pages/admin/userManagement/StudentData";
+import StudentDetails from "../pages/admin/userManagement/StudentDetails";
 // import { NavLink } from "react-router-dom";
 
 // type TRoute = {
@@ -72,6 +73,10 @@ export const adminPaths = [
         name: "Students",
         path: "students-data",
         element: <StudentData></StudentData>,
+      },
+      {
+        path: "student-data/:studentId",
+        element: <StudentDetails></StudentDetails>,
       },
       {
         name: "Create Admin",
