@@ -36,7 +36,9 @@ const CreateAcademicSemester = () => {
     };
 
     try {
-      const res = (await createAcademicSemester(semesterData)) as TResponse;
+      const res = (await createAcademicSemester(
+        semesterData
+      )) as TResponse<any>;
       if (res.error) {
         toast.error(res.error.data.message, {
           position: "top-center",
