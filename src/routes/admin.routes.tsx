@@ -10,6 +10,8 @@ import StudentDetails from "../pages/admin/userManagement/StudentDetails";
 import SemesterRegistration from "../pages/admin/courseManagement/SemesterRegistration";
 import RegisteredSemester from "../pages/admin/courseManagement/RegisteredSemester";
 import CreateCourse from "../pages/admin/courseManagement/CreateCourse";
+import Course from "../pages/admin/courseManagement/Course";
+import OfferCourse from "../pages/admin/courseManagement/OfferCourse";
 // import { NavLink } from "react-router-dom";
 
 // type TRoute = {
@@ -110,6 +112,16 @@ export const adminPaths = [
         name: "Create Course",
         path: "create-course",
         element: <CreateCourse />,
+      },
+      {
+        name: "Course",
+        path: "course",
+        element: <Course />,
+      },
+      {
+        name: "Offer Course",
+        path: "offer-course",
+        element: <OfferCourse />,
       },
     ],
   },
