@@ -29,13 +29,15 @@ const studentCourseApi = baseApi.injectEndpoints({
       },
     }),
 
-    addStudent: builder.mutation({
+    enrollCourse: builder.mutation({
       query: (data) => ({
-        url: "/users/create-student",
+        url: "/enrolled-courses/create-enrolled-course",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["offeredCourse"],
     }),
   }),
 });
-export const { useGetAllOfferedCoursesQuery } = studentCourseApi;
+export const { useGetAllOfferedCoursesQuery, useEnrollCourseMutation } =
+  studentCourseApi;

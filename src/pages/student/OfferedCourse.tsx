@@ -1,11 +1,18 @@
 import { Button, Col, Row } from "antd";
-import { useGetAllOfferedCoursesQuery } from "../../redux/features/student/studentCourseManagement.api";
+import {
+  useEnrollCourseMutation,
+  useGetAllOfferedCoursesQuery,
+} from "../../redux/features/student/studentCourseManagement.api";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+
+type TCourse = {
+  [index: string]: any;
+};
 
 const OfferedCourse = () => {
   const { data: OfferedCourseData } = useGetAllOfferedCoursesQuery(undefined);
-  console.log(OfferedCourseData);
-
-  const singleObject = OfferedCourseData?.data?.reduce((acc, item) => {
+  const [enroll] = useEnrollCourseMutation();
+  const singleObject = OfferedCourseData?.data?.reduce((acc: TCourse, item) => {
     const key = item.course.title;
 
     acc[key] = acc[key] || { courseTitle: key, sections: [] };
@@ -22,11 +29,24 @@ const OfferedCourse = () => {
 
   const modifiedData = Object.values(singleObject ? singleObject : {});
 
+  const handleEnroll: SubmitHandler<FieldValues> = async (id) => {
+    const enrollData = {
+      offeredCourse: id,
+    };
+
+    const res = await enroll(enrollData);
+    console.log(res);
+  };
+
+  if (!modifiedData.length) {
+    return <p>No Courses Available for you</p>;
+  }
+
   return (
     <Row gutter={[0, 20]}>
-      {modifiedData.map((item) => {
+      {modifiedData.map((item, idx) => {
         return (
-          <Col span={24} style={{ border: "solid #d4d4d4 2px" }}>
+          <Col key={idx} span={24} style={{ border: "solid #d4d4d4 2px" }}>
             {" "}
             <div style={{ padding: "10px" }}>
               <h2>{item.courseTitle}</h2>
@@ -35,6 +55,7 @@ const OfferedCourse = () => {
               {item.sections.map((item) => {
                 return (
                   <Row
+                    key={item._id}
                     justify={"space-between"}
                     align={"middle"}
                     style={{ borderTop: "solid #d4d4d4 2px", padding: "10px" }}
@@ -42,13 +63,15 @@ const OfferedCourse = () => {
                     <Col span={5}>Section: {item.section} </Col>
                     <Col span={5}>
                       Days:{" "}
-                      {item.days.map((day) => (
-                        <span> {day} </span>
+                      {item.days.map((day, idx) => (
+                        <span key={idx}> {day} </span>
                       ))}{" "}
                     </Col>
                     <Col span={5}>Start Time: {item.startTime} </Col>
                     <Col span={5}>End Time: {item.endTime} </Col>
-                    <Button>Enroll</Button>
+                    <Button onClick={() => handleEnroll(item._id)}>
+                      Enroll
+                    </Button>
                   </Row>
                 );
               })}
